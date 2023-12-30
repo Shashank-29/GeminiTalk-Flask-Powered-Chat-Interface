@@ -33,7 +33,12 @@
         element.style.height = 'auto';
         element.style.height = (element.scrollHeight) + 'px';
     }
-
+    function handleKeyPress(event) {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();  // Prevents the default behavior (new line) for the Enter key
+            document.getElementById('chatForm').submit();  // Submits the form
+        }
+    }
     // Attach autoresize to the textarea
     document.addEventListener('input', function (event) {
         if (event.target.tagName.toLowerCase() === 'textarea') {
@@ -42,13 +47,15 @@
     });
 </script>
 <div class="nav">
-   <form  method="post">
+   <form id="chatForm" method="post">
     <div class="logo" style="display: flex; align-items: center;">
 
             <img src="{{ url_for('static', filename='Google-Gemini-AI-Logo.png') }}" width="9%" height="6%">
 
-        <textarea type="text" class="input" name="input" value="{{ input }}" style="margin-left: 10px; margin-top: 18px"></textarea>
+        <textarea type="text" class="input" name="input" value="{{ input }}" style="margin-left: 10px; margin-top: 22px" onkeydown="handleKeyPress(event)"></textarea>
+
         <button class="sbutton" type="submit">Send</button>
+
         <button type="button" class="newButton" onclick="scrollToBottom()">
           <svg class="svgIcon" viewBox="0 0 384 512">
             <path
@@ -61,6 +68,7 @@
 </form>
     </div>
 <div id="main">
+    {% if show_results %}
    <div class="content" style="margin-top: 130px;">
         <h2>Chat History</h2>
         {% if chat_history %}
@@ -75,6 +83,7 @@
               <p class="intext">{{ last_bot_response }}</p>
           {% endif %}
        </div>
+    {% endif %}
 </div>
 
 </body>
