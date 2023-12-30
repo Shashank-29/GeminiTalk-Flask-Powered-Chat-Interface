@@ -1,0 +1,6 @@
+flask
+flask_socketio
+google-generativeai
+python-dotenv
+ipython
+gunicorn

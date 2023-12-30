@@ -1,0 +1,81 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<script>
+    function scrollToBottom() {
+      var mainDiv = document.getElementById("main");
+      var lastChild = mainDiv.lastElementChild;
+      if (lastChild) {
+        lastChild.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+      }
+    }
+
+    // Function to scroll to bottom
+    function scrollToBottomOnLoad() {
+        // Call scrollToBottom when the page has finished loading
+        scrollToBottom();
+    }
+
+    // Add an event listener for the "load" event
+    window.addEventListener('load', scrollToBottomOnLoad);
+
+    // Add an event listener for the "DOMContentLoaded" event
+    document.addEventListener('DOMContentLoaded', scrollToBottomOnLoad);
+    function autoResize(element) {
+        element.style.height = 'auto';
+        element.style.height = (element.scrollHeight) + 'px';
+    }
+
+    // Attach autoresize to the textarea
+    document.addEventListener('input', function (event) {
+        if (event.target.tagName.toLowerCase() === 'textarea') {
+            autoResize(event.target);
+        }
+    });
+</script>
+<div class="nav">
+   <form  method="post">
+    <div class="logo" style="display: flex; align-items: center;">
+
+            <img src="{{ url_for('static', filename='Google-Gemini-AI-Logo.png') }}" width="9%" height="6%">
+
+        <textarea type="text" class="input" name="input" value="{{ input }}" style="margin-left: 10px; margin-top: 18px"></textarea>
+        <button class="sbutton" type="submit">Send</button>
+        <button type="button" class="newButton" onclick="scrollToBottom()">
+          <svg class="svgIcon" viewBox="0 0 384 512">
+            <path
+              d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"
+            ></path>
+          </svg>
+        </button>
+
+    </div>
+</form>
+    </div>
+<div id="main">
+   <div class="content" style="margin-top: 130px;">
+        <h2>Chat History</h2>
+        {% if chat_history %}
+            {% for role, text in chat_history %}
+                <p class="intext">{{ role }}: {{ text }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="mydiv">
+          <h2>Response</h2>
+          {% if last_bot_response %}
+              <p class="intext">{{ last_bot_response }}</p>
+          {% endif %}
+       </div>
+</div>
+
+</body>
+</html>
