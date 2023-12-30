@@ -24,7 +24,7 @@ img {
     margin-top: 10px; /* Adjust margin as needed for spacing between image and text */
 }
 .input {
-resize: none;
+  margin: 20px;
   resize: none;
   overflow: hidden;
   white-space: pre-wrap;
