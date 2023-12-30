@@ -21,17 +21,19 @@ def index():
 @app.route('/', methods=['POST'])
 def ask_question():
     global chat_history
+    show_results = False
+    last_bot_response = None
     if request.method == 'POST':
         input_text = request.form['input']
         if input_text:
             response = chat.send_message(input_text)
             chat_history.append(('You', input_text))
             chat_history.extend([('Bot', response.text) ])
-
+            show_results = True
             # Get the last response from the bot
-            last_bot_response = [chunk.text for chunk in response][-1]
+            last_bot_response = response.text
 
-            return render_template('index.html', input=input_text, chat_history=chat_history, last_bot_response=last_bot_response)
+            return render_template('index.html', input=input_text, show_results=show_results, chat_history=chat_history,last_bot_response=last_bot_response )
 
 if __name__ == '__main__':
     app.run(debug=True)
